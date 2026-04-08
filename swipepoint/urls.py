@@ -18,10 +18,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
-from payments.views import HomeView
+from payments.views import HealthView, HomeView
 
 urlpatterns = [
     path("", HomeView.as_view(), name="home"),
+    path("health/", HealthView.as_view(), name="health"),
     path("admin/", admin.site.urls),
     path("api/", include("payments.urls")),
 ]

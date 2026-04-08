@@ -30,11 +30,22 @@ class HomeView(APIView):
                 "service": "SwipePoint backend",
                 "version": "1.0",
                 "endpoints": {
+                    "GET /health/": "Load balancer / platform health check",
                     "POST /api/charge": "Payment charge (JSON body per SwipePoint spec)",
                     "GET /admin/": "Django admin",
                 },
             }
         )
+
+
+class HealthView(APIView):
+    """GET /health/ — returns 200 when the app is up (for Railway, Render, etc.)."""
+
+    authentication_classes: list = []
+    permission_classes = [AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        return Response({"status": "ok"})
 
 
 def _card_last4(card_number: str) -> str:
