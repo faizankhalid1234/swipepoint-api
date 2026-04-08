@@ -6,13 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('payments', '0002_add_awaiting_3ds_status'),
+        ("payments", "0002_add_awaiting_3ds_status"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='transaction',
-            name='swipepoint_data',
-            field=models.JSONField(blank=True, help_text='Snapshot of request fields sent to charge API (card masked, CVV not stored).', null=True),
+            model_name="transaction",
+            name="swipepoint_data",
+            field=models.JSONField(
+                blank=True,
+                help_text="Snapshot of request fields sent to charge API (card masked, CVV not stored).",
+                null=True,
+            ),
         ),
     ]

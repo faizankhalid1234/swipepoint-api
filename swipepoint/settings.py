@@ -14,10 +14,17 @@ load_dotenv(BASE_DIR / ".env")
 SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-change-me-in-production")
 DEBUG = os.environ.get("DEBUG", "True").lower() in ("1", "true", "yes")
 
-ALLOWED_HOSTS = [
-    h.strip()
-    for h in os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
-    if h.strip()
+# Comma-separated hostnames, or "*" to allow any (typical on PaaS when paired with a reverse proxy).
+_allowed = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").strip()
+ALLOWED_HOSTS = (
+    ["*"] if _allowed == "*" else [h.strip() for h in _allowed.split(",") if h.strip()]
+)
+
+# HTTPS origins for CSRF (e.g. https://your-app.up.railway.app). Comma-separated.
+CSRF_TRUSTED_ORIGINS = [
+    x.strip()
+    for x in os.environ.get("CSRF_TRUSTED_ORIGINS", "").split(",")
+    if x.strip()
 ]
 
 INSTALLED_APPS = [
@@ -80,7 +87,11 @@ else:
     }
 
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {
+        "NAME": (
+            "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
+        ),
+    },
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
@@ -92,6 +103,8 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
@@ -100,6 +113,7 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOW_ALL_ORIGINS = DEBUG
+
 if not DEBUG:
     CORS_ALLOWED_ORIGINS = [
         o.strip()
@@ -112,4 +126,5 @@ SWIPEPOINT_CHARGE_URL = os.environ.get(
     "SWIPEPOINT_CHARGE_URL",
     "https://swipepointe.com/api/charge",
 )
+
 PAYMENT_PROVIDER_MODE = os.environ.get("PAYMENT_PROVIDER_MODE", "internal")

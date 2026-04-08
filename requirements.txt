@@ -6,3 +6,5 @@ dj-database-url>=2.1
 requests>=2.31
 django-cors-headers>=4.3
 gunicorn>=22,<24
+
+# Optional — code formatting: pip install black

@@ -81,10 +81,16 @@ class ChargeView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
-        provider_mode = getattr(settings, "PAYMENT_PROVIDER_MODE", "internal").lower().strip()
-        if provider_mode != "internal" and not getattr(settings, "SWIPEPOINT_API_SECRET", None):
+        provider_mode = (
+            getattr(settings, "PAYMENT_PROVIDER_MODE", "internal").lower().strip()
+        )
+        if provider_mode != "internal" and not getattr(
+            settings, "SWIPEPOINT_API_SECRET", None
+        ):
             return Response(
-                {"detail": "Server misconfiguration: SWIPEPOINT_API_SECRET is not set."},
+                {
+                    "detail": "Server misconfiguration: SWIPEPOINT_API_SECRET is not set."
+                },
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
@@ -132,7 +138,9 @@ class ChargeView(APIView):
                 http_status, body = post_charge_to_swipepoint(payload)
 
                 txn.provider_status_code = http_status if http_status else None
-                txn.provider_response = body if isinstance(body, (dict, list)) else {"raw": body}
+                txn.provider_response = (
+                    body if isinstance(body, (dict, list)) else {"raw": body}
+                )
 
                 client_body, client_http, txn_status = build_charge_client_response(
                     reference=txn.reference,

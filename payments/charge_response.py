@@ -67,7 +67,9 @@ def build_charge_client_response(
     top_status = (raw.get("status") or "").lower()
     message = raw.get("message")
     if message is None or message == "":
-        message = "success" if top_status == "success" else (raw.get("error") or "failed")
+        message = (
+            "success" if top_status == "success" else (raw.get("error") or "failed")
+        )
 
     data = raw.get("data")
     if not isinstance(data, dict):
@@ -85,7 +87,9 @@ def build_charge_client_response(
     oid = _order_id(data)
 
     # --- Failure from gateway (HTTP or body) ---
-    body_failed = top_status in ("failed", "error", "declined") or raw.get("success") is False
+    body_failed = (
+        top_status in ("failed", "error", "declined") or raw.get("success") is False
+    )
     if not (200 <= provider_http_status < 300) or body_failed:
         err_msg = message
         if isinstance(raw.get("data"), dict) and raw["data"].get("message"):

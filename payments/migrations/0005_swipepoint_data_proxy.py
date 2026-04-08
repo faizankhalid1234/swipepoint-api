@@ -6,21 +6,20 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('payments', '0004_swipepoint_data_verbose_name'),
+        ("payments", "0004_swipepoint_data_verbose_name"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='SwipePointData',
-            fields=[
-            ],
+            name="SwipePointData",
+            fields=[],
             options={
-                'verbose_name': 'SwipePoint data',
-                'verbose_name_plural': 'SwipePoint data',
-                'proxy': True,
-                'indexes': [],
-                'constraints': [],
+                "verbose_name": "SwipePoint data",
+                "verbose_name_plural": "SwipePoint data",
+                "proxy": True,
+                "indexes": [],
+                "constraints": [],
             },
-            bases=('payments.transaction',),
+            bases=("payments.transaction",),
         ),
     ]

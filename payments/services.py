@@ -67,16 +67,22 @@ def _post_charge_to_internal_gateway(payload: dict[str, Any]) -> tuple[int, dict
     }
 
 
-def post_charge_to_swipepoint(payload: dict[str, Any]) -> tuple[int, dict | list | str | None]:
+def post_charge_to_swipepoint(
+    payload: dict[str, Any],
+) -> tuple[int, dict | list | str | None]:
     """
     POST JSON to SwipePoint charge API.
     Returns (http_status, parsed_json_or_text).
     """
-    provider_mode = getattr(settings, "PAYMENT_PROVIDER_MODE", "internal").lower().strip()
+    provider_mode = (
+        getattr(settings, "PAYMENT_PROVIDER_MODE", "internal").lower().strip()
+    )
     if provider_mode == "internal":
         return _post_charge_to_internal_gateway(payload)
 
-    url = getattr(settings, "SWIPEPOINT_CHARGE_URL", "https://swipepointe.com/api/charge")
+    url = getattr(
+        settings, "SWIPEPOINT_CHARGE_URL", "https://swipepointe.com/api/charge"
+    )
     secret = getattr(settings, "SWIPEPOINT_API_SECRET", "") or ""
     headers = {
         "Content-Type": "application/json",

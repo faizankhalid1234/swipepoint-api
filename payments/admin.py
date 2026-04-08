@@ -48,6 +48,7 @@ class SwipePointDataAdmin(admin.ModelAdmin):
         full = f"{obj.firstname} {obj.lastname}".strip()
         return full or obj.card_name or "—"
 
+    @admin.display(description="Body (JSON)")
     def swipepoint_data_formatted(self, obj):
         if not obj.swipepoint_data:
             return "—"
@@ -60,8 +61,6 @@ class SwipePointDataAdmin(admin.ModelAdmin):
             + escape(pretty)
             + "</pre>"
         )
-
-    swipepoint_data_formatted.short_description = "Body (JSON)"
 
     @admin.display(description="API response (JSON)")
     def api_response_formatted(self, obj):

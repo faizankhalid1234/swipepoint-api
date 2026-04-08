@@ -7,42 +7,69 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Transaction',
+            name="Transaction",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('reference', models.CharField(db_index=True, max_length=255, unique=True)),
-                ('amount', models.CharField(max_length=32)),
-                ('currency', models.CharField(max_length=8)),
-                ('firstname', models.CharField(max_length=128)),
-                ('lastname', models.CharField(max_length=128)),
-                ('email', models.EmailField(max_length=254)),
-                ('phone', models.CharField(max_length=32)),
-                ('card_name', models.CharField(max_length=128)),
-                ('card_last4', models.CharField(blank=True, max_length=4)),
-                ('exp_month', models.CharField(max_length=2)),
-                ('exp_year', models.CharField(max_length=4)),
-                ('country', models.CharField(max_length=2)),
-                ('city', models.CharField(max_length=128)),
-                ('address', models.TextField()),
-                ('zip_code', models.CharField(max_length=32)),
-                ('state', models.CharField(max_length=128)),
-                ('ip_address', models.CharField(max_length=64)),
-                ('callback_url', models.URLField(max_length=2048)),
-                ('webhook_url', models.URLField(blank=True, max_length=2048, null=True)),
-                ('status', models.CharField(choices=[('pending', 'Pending'), ('success', 'Success'), ('failed', 'Failed')], default='pending', max_length=16)),
-                ('provider_status_code', models.PositiveSmallIntegerField(blank=True, null=True)),
-                ('provider_response', models.JSONField(blank=True, null=True)),
-                ('error_message', models.TextField(blank=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "reference",
+                    models.CharField(db_index=True, max_length=255, unique=True),
+                ),
+                ("amount", models.CharField(max_length=32)),
+                ("currency", models.CharField(max_length=8)),
+                ("firstname", models.CharField(max_length=128)),
+                ("lastname", models.CharField(max_length=128)),
+                ("email", models.EmailField(max_length=254)),
+                ("phone", models.CharField(max_length=32)),
+                ("card_name", models.CharField(max_length=128)),
+                ("card_last4", models.CharField(blank=True, max_length=4)),
+                ("exp_month", models.CharField(max_length=2)),
+                ("exp_year", models.CharField(max_length=4)),
+                ("country", models.CharField(max_length=2)),
+                ("city", models.CharField(max_length=128)),
+                ("address", models.TextField()),
+                ("zip_code", models.CharField(max_length=32)),
+                ("state", models.CharField(max_length=128)),
+                ("ip_address", models.CharField(max_length=64)),
+                ("callback_url", models.URLField(max_length=2048)),
+                (
+                    "webhook_url",
+                    models.URLField(blank=True, max_length=2048, null=True),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("pending", "Pending"),
+                            ("success", "Success"),
+                            ("failed", "Failed"),
+                        ],
+                        default="pending",
+                        max_length=16,
+                    ),
+                ),
+                (
+                    "provider_status_code",
+                    models.PositiveSmallIntegerField(blank=True, null=True),
+                ),
+                ("provider_response", models.JSONField(blank=True, null=True)),
+                ("error_message", models.TextField(blank=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
             ],
             options={
-                'ordering': ['-created_at'],
+                "ordering": ["-created_at"],
             },
         ),
     ]

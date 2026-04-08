@@ -27,7 +27,9 @@ class ChargeSerializer(serializers.Serializer):
     state = serializers.CharField(max_length=128)
 
     callback_url = serializers.URLField(max_length=2048)
-    webhook_url = serializers.URLField(max_length=2048, required=False, allow_blank=True)
+    webhook_url = serializers.URLField(
+        max_length=2048, required=False, allow_blank=True
+    )
 
     def validate_currency(self, value: str) -> str:
         v = value.strip().upper()
@@ -38,5 +40,7 @@ class ChargeSerializer(serializers.Serializer):
     def validate_country(self, value: str) -> str:
         v = value.strip().upper()
         if len(v) != 2 or not v.isalpha():
-            raise serializers.ValidationError("country must be a 2-letter ISO alpha-2 code.")
+            raise serializers.ValidationError(
+                "country must be a 2-letter ISO alpha-2 code."
+            )
         return v
