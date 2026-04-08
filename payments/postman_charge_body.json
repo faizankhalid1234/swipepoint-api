@@ -1,0 +1,22 @@
+{
+  "amount": "10.00",
+  "currency": "USD",
+  "reference": "order-test-001",
+  "firstname": "Ali",
+  "lastname": "Khan",
+  "email": "ali@example.com",
+  "phone": "+923001234567",
+  "cardName": "Ali Khan",
+  "cardNumber": "4111111111111111",
+  "cardCVV": "123",
+  "expMonth": "12",
+  "expYear": "28",
+  "country": "PK",
+  "city": "Karachi",
+  "address": "Street 1, Area",
+  "ip_address": "203.0.113.10",
+  "zip_code": "75500",
+  "state": "SD",
+  "callback_url": "https://example.com/payment/callback",
+  "webhook_url": "https://example.com/payment/webhook"
+}
