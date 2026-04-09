@@ -16,9 +16,11 @@ class SwipePointDataAdmin(admin.ModelAdmin):
         "reference",
         "amount",
         "created_at",
+        "status_display",
         "display_name",
         "email",
     )
+    list_filter = ("status",)
     search_fields = ("reference", "email", "firstname", "lastname")
     ordering = ("-created_at",)
     readonly_fields = (
@@ -42,6 +44,10 @@ class SwipePointDataAdmin(admin.ModelAdmin):
             },
         ),
     )
+
+    @admin.display(description="Status", ordering="status")
+    def status_display(self, obj):
+        return obj.get_status_display()
 
     @admin.display(description="Name")
     def display_name(self, obj):
