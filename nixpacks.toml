@@ -1,0 +1,3 @@
+# Railway / Nixpacks: collect admin & app static files into STATIC_ROOT for WhiteNoise.
+[phases.build]
+cmds = ["python manage.py collectstatic --noinput"]
