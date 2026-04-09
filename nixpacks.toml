@@ -1,3 +1,4 @@
-# Railway / Nixpacks: collect admin & app static files into STATIC_ROOT for WhiteNoise.
+# Nixpacks-only (if you use the Nixpacks builder). Railway’s default Railpack ignores this file;
+# use railway.json deploy.startCommand for collectstatic + gunicorn.
 [phases.build]
 cmds = ["python manage.py collectstatic --noinput"]
