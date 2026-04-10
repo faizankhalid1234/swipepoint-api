@@ -16,9 +16,12 @@ DEBUG = os.environ.get("DEBUG", "True").lower() in ("1", "true", "yes")
 
 # Comma-separated hostnames, or "*" to allow any (typical on PaaS when paired with a reverse proxy).
 _allowed = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").strip()
-ALLOWED_HOSTS = (
-    ["*"] if _allowed == "*" else [h.strip() for h in _allowed.split(",") if h.strip()]
-)
+ALLOWED_HOSTS = ["*"] if _allowed == "*" else [h.strip() for h in _allowed.split(",") if h.strip()]
+if not DEBUG and not ALLOWED_HOSTS:
+    ALLOWED_HOSTS = ["*"]
+
+# If your app is behind a proxy/load balancer, let Django detect HTTPS correctly.
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # HTTPS origins for CSRF (e.g. https://your-app.up.railway.app). Comma-separated.
 CSRF_TRUSTED_ORIGINS = [
