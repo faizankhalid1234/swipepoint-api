@@ -18,6 +18,7 @@ DEBUG = os.environ.get("DEBUG", "True").lower() in ("1", "true", "yes")
 _allowed = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").strip()
 ALLOWED_HOSTS = ["*"] if _allowed == "*" else [h.strip() for h in _allowed.split(",") if h.strip()]
 if not DEBUG and not ALLOWED_HOSTS:
+    # Railway production may not set ALLOWED_HOSTS explicitly, so allow the proxy host.
     ALLOWED_HOSTS = ["*"]
 
 # If your app is behind a proxy/load balancer, let Django detect HTTPS correctly.
