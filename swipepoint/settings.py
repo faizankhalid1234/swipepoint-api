@@ -20,11 +20,26 @@ if not _allowed:
     _allowed = "localhost,127.0.0.1"
 ALLOWED_HOSTS = ["*"] if _allowed == "*" else [h.strip() for h in _allowed.split(",") if h.strip()]
 if not ALLOWED_HOSTS:
-    # Railway production may not set ALLOWED_HOSTS explicitly, so allow the proxy host.
     ALLOWED_HOSTS = ["*"]
+
+# Railway: without ALLOWED_HOSTS in the dashboard, the public *.up.railway.app Host header
+# triggers DisallowedHost → HTTP 400. Wildcard subdomain + optional RAILWAY_PUBLIC_DOMAIN.
+_on_railway = bool(
+    os.environ.get("RAILWAY_ENVIRONMENT")
+    or os.environ.get("RAILWAY_PUBLIC_DOMAIN")
+    or os.environ.get("RAILWAY_PROJECT_ID")
+)
+if _on_railway and ALLOWED_HOSTS != ["*"]:
+    _railway_public = os.environ.get("RAILWAY_PUBLIC_DOMAIN", "").strip()
+    if _railway_public and _railway_public not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS = [*ALLOWED_HOSTS, _railway_public]
+    if ".up.railway.app" not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS = [*ALLOWED_HOSTS, ".up.railway.app"]
 
 # If your app is behind a proxy/load balancer, let Django detect HTTPS correctly.
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+# Prefer the public Host from the edge proxy (Railway, etc.).
+USE_X_FORWARDED_HOST = _on_railway
 
 # HTTPS origins for CSRF (e.g. https://your-app.up.railway.app). Comma-separated.
 CSRF_TRUSTED_ORIGINS = [
@@ -32,6 +47,11 @@ CSRF_TRUSTED_ORIGINS = [
     for x in os.environ.get("CSRF_TRUSTED_ORIGINS", "").split(",")
     if x.strip()
 ]
+_railway_public_domain = os.environ.get("RAILWAY_PUBLIC_DOMAIN", "").strip()
+if _railway_public_domain:
+    _railway_csrf = f"https://{_railway_public_domain}"
+    if _railway_csrf not in CSRF_TRUSTED_ORIGINS:
+        CSRF_TRUSTED_ORIGINS = [*CSRF_TRUSTED_ORIGINS, _railway_csrf]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
