@@ -1,0 +1,53 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | SwipePoint{% endblock %}
+
+{% block branding %}
+<div id="branding">
+  <h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:"SwipePoint" }}</a></h1>
+  <p class="swipepoint-admin-tagline">Merchant dashboard — SwipePoint charges</p>
+  {% if user.is_anonymous %}
+    {% include "admin/color_theme_toggle.html" %}
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block extrastyle %}{{ block.super }}
+<style>
+  #branding .swipepoint-admin-tagline {
+    margin: 0.15rem 0 0;
+    padding: 0;
+    font-size: 0.75rem;
+    font-weight: 400;
+    opacity: 0.9;
+    color: var(--header-link-color, #e0f2f1);
+  }
+  html[data-theme="light"],
+  :root {
+    --primary: #0d9488;
+    --secondary: #115e59;
+    --link-fg: #0f766e;
+    --header-bg: #0f766e;
+    --header-color: #f0fdfa;
+    --header-branding-color: #ffffff;
+    --breadcrumbs-fg: #ccfbf1;
+  }
+  #header {
+    background: var(--header-bg);
+    color: var(--header-color);
+  }
+  #branding h1,
+  #branding h1 a:link,
+  #branding h1 a:visited {
+    color: var(--header-branding-color);
+    font-weight: 600;
+  }
+  .module h2,
+  .module caption,
+  .inline-group h2 {
+    background: var(--secondary);
+  }
+</style>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

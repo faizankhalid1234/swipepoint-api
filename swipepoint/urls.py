@@ -20,6 +20,10 @@ from django.urls import include, path
 
 from payments.views import HealthView, HomeView
 
+admin.site.site_header = "SwipePoint"
+admin.site.site_title = "SwipePoint admin"
+admin.site.index_title = "Charges & transactions"
+
 urlpatterns = [
     path("", HomeView.as_view(), name="home"),
     path("health/", HealthView.as_view(), name="health"),
