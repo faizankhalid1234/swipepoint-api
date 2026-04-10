@@ -12,12 +12,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
 
 SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-change-me-in-production")
-DEBUG = os.environ.get("DEBUG", "True").lower() in ("1", "true", "yes")
+DEBUG = os.environ.get("DEBUG", "False").lower() in ("1", "true", "yes")
 
 # Comma-separated hostnames, or "*" to allow any (typical on PaaS when paired with a reverse proxy).
 _allowed = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").strip()
+if not _allowed:
+    _allowed = "localhost,127.0.0.1"
 ALLOWED_HOSTS = ["*"] if _allowed == "*" else [h.strip() for h in _allowed.split(",") if h.strip()]
-if not DEBUG and not ALLOWED_HOSTS:
+if not ALLOWED_HOSTS:
     # Railway production may not set ALLOWED_HOSTS explicitly, so allow the proxy host.
     ALLOWED_HOSTS = ["*"]
 
